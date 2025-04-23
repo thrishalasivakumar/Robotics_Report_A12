@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group A12</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Smart Crawler</h1>
+            <h2>Pipeline Climbing and Inspection Robot</h2>
+            <p>Team A12</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Table of Contents -->
+        <section id="toc" class="toc-section">
+            <h2>Table of Contents</h2>
+            <div class="toc-container">
+                <ul class="toc-list">
+                    <li><a href="#abstract">1. Abstract</a></li>
+                    <li><a href="#introduction">2. Introduction</a></li>
+                    <li><a href="#literature">3. Literature Review and Related Work</a>
+                    </li>
+                    <li><a href="#methodology">4. Methodology & Implementation</a>
+                    </li>
+                    <li><a href="#results">5. Results and Discussion</a></li>
+                    <li><a href="#demo">6. Demo of Simulation and Hardware</a></li>
+                    <li><a href="#conclusion">7. Conclusion and Future Work</a></li>
+                    <li><a href="#references">8. References</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Abstract -->
+        <section id="abstract" class="section">
+            <h2>1. Abstract</h2>
+            <div class="content-block">
+                <p>This paper presents the design and implementation of <b>SmartCrawler</b>, a compact, tri-legged robotic system developed for autonomous navigation and inspection of pipelines with varying internal diameters. Each leg of the robot features a dual-wheel configuration and an expansion-contraction mechanism actuated by a lead screw assembly, enabling adaptive adjustment to pipeline dimensions. A pressure-based sensing approach is employed to detect contact with pipe walls, allowing SmartCrawler to dynamically regulate its structural span and maintain stable locomotion. The robot is capable of negotiating both straight and curved sections of the pipeline while preserving traction and orientation. A mathematical model is developed to analyze the kinematics, motion control, and energy-efficient behavior of the system under constrained conditions. The robot is built using lightweight, 3D-printed components and tested through integrated simulation and real-world trials. SmartCrawler demonstrates potential as an effective, autonomous solution for pipeline inspection, with applicability in industrial maintenance and hazardous environment exploration.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Introduction -->
+        <section id="introduction" class="section">
+            <h2>2. Introduction</h2>
+            <div class="content-block">
+                <p>
+                    Industrial pipelines are critical elements used in industries like oil and gas, water treatment, chemical industry, and waste water management. The integrity of the structure and reliability of pipeline functions are instrumental in maintaining safety, environmental compliance, and performance efficiency. It is, nevertheless, very challenging to access and inspect pipelines that are underground, submerged, or located in unsafe environments. Classic inspection techniques tend to be manual, time-consuming, and inflexible in adapting for entering narrow or changing pipeline geometries.
+                    </p>
+                    
+                    <p>
+                    To mitigate these shortcomings, this project proposes <strong>SmartCrawler</strong>, an autonomous robotic system for in-pipe navigation and inspection. SmartCrawler has a tri-legged structure with each leg expandable and contractible through a lead screw-driven sliding mechanism. This adaptive form enables the robot to dynamically accommodate changes in pipe diameter, enabling stable movement and constant contact between the robot's legs and pipe walls. There is a double-wheel configuration per leg, making it possible for the robot to move smoothly in both straight tubes and curves along the pipeline.
+                    </p>
+                    
+                    <p>
+                    The robot uses mechanical adaptability combined with feedback from real-time pressure-based means to autonomously control its leg span without input from an external controller. With the use of lightweight, 3D-printed parts, SmartCrawler obtains a small enough form factor for navigating tight spaces. The embedded microcontroller-based logic powers the system, and motion dynamics are sustained by a mathematical model consisting of kinematic modeling and elementary optimization principles. In simulation as well as hardware prototyping, the project shows the viability of a low-cost, modular robot for robust pipeline navigation and adaptation.
+                    </p>
+                    
+                    <p>
+                    SmartCrawler has potential for large-scale deployment in industrial inspection, infrastructure maintenance, and rescue applications, especially where human access is not practical or unsafe.
+                    </p>
+                    
+            </div>
+        </section>
+        
+        <!-- Literature Review -->
+        <section id="literature" class="section">
+            <h2>3. Literature Review and Related Work</h2>
+            <div class="content-block">
+                <p>
+                    Inspection and maintenance of pipelines are areas of continuous development in mobile robotics, particularly with the growing need for systems that can operate autonomously in confined and variable environments. Several research works have focused on developing modular and flexible robots capable of maneuvering through pipelines with different diameters and topologies.
+                    </p>
+                    
+                    <p>
+                    Roh et al. <cite>(2008)</cite> introduced <em>MRINSPECT V</em>, a modularized in-pipe robot capable of selective navigation within pipelines of 8-inch inner diameter. The robot utilizes a differential driving mechanism with clutch-based transmission, enabling it to adapt its movement strategy based on the pipeline geometry. MRINSPECT V is structured with active and passive modules connected serially, allowing for better maneuverability and energy efficiency. Its innovative joint design contributes to enhanced navigation in narrow and curved pipelines, and initial experimental results demonstrate its strong potential for in-service deployment.
+                    </p>
+                    
+                    <p>
+                    Expanding on this platform, Lee et al. <cite>(2011)</cite> proposed a navigation method for autonomous in-pipe robots using landmark detection and 3D orientation sensing. They employ a line laser system that generates unique patterns on pipeline fittings like elbows and branches, which the robot uses as landmarks. Coupled with orientation and encoder data, the robot constructs a spatial map of the pipeline, enabling fully autonomous navigation in unknown 3D pipeline environments. This approach emphasizes robust landmark detection and real-time orientation tracking, which are essential for autonomous decision-making in complex pipeline networks.
+                    </p>
+                    
+                    <p>
+                    More recently, Jang et al. <cite>(2021)</cite> presented <em>MRINSPECT VII+</em>, an enhanced modular robot designed for inspecting 200 mm urban gas pipelines. This system features multiaxial differential gear drives for improved traction, a modular sensor package for environmental recognition, and a control unit with autonomous navigation capabilities. MRINSPECT VII+ also integrates backdrivable active joint modules and wireless communication to interface with ground stations. The system demonstrates significant advancement in modularity, flexibility, and onboard intelligence for real-world pipeline inspection.
+                    </p>
+                    
+                    <p>
+                    While these robots offer robust features, they are often limited by mechanical complexity, high manufacturing cost, and the need for extensive sensor arrays. In contrast, <em>SmartCrawler</em> introduces a simplified, cost-effective, and 3D-printable solution that integrates mechanical adaptability with minimal sensor input. It emphasizes pressure-based diameter sensing, lead screw-driven leg expansion, and mathematical motion modeling, providing a lightweight and scalable solution for pipeline inspection, especially where flexibility, modularity, and autonomy are prioritized.
+                    </p>
+                    
+            </div>
+            
+        </section>
+        
+        <!-- Methodology & Implementation -->
+        <section id="methodology" class="section">
+            <h2>4. Methodology & Implementation</h2>
+            
+            <div id="methodology-overview" class="subsection">
+                <h3>4.1. Overview</h3>
+                <div class="content-block">
+                    <p>The <b>SmartCrawler</b> utilized a phased engineering strategy integrating mechanical design, embedded system integration, sensor feedback modeling, and modular prototyping. The general objective was to create an autonomous robotic platform that could navigate pipelines with differing internal diameters through adaptive mechanical configurations and simple environmental feedback. Due to time and resource limitations, the engineering practice in this stage was directed towards achieving and demonstrating one complete leg mechanism—being a functional subset of the planned final robot. The rest of the structure and control behavior were simulated and CAD'ed in detail, with all dimensions, mechanisms, and behaviors determined and tested for subsequent integration. This staged rollout allows the scaling up of the prototype to a complete robot to be a case of replication and assembly, not further R\&D.
+                    </p>
+                </div>
+            </div>
+            
+            <div id="methodology-hardware" class="subsection">
+                <h3>4.2. Mechanical design and Architecture</h3>
+                <div class="content-block">
+                    <p>The design was initiated with building the structural elements of the <b>SmartCrawler</b> in CAD on Autodesk Fusion 360. The body of the robot was designed to be a cylindrical housing with three symmetrical leg modules arranged around its longitudinal axis. Every leg consisted of a sliding actuator driven by a lead screw and stepper motor, pivoting arms of the linkage, and a double-wheel drive attached on a bracket. A complete leg module was designed and tested for the prototype using 3D-printed parts in PLA material.
+
+                        Mechanical movement depends on a linear slider driven by a NEMA 17 stepper motor with a TR8x8 lead screw of 300 mm length. The slider thrusts or retracts a connector block, which is connected to the pivoting arms of the leg through rigid linkages. <br> <br> The slider's movement causes the legs to expand outward or contract inward, depending on the direction of the rotation. Two wheels are mounted on opposite sides of a specially designed bracket on each leg. BO motors were incorporated on both sides to drive the wheels independently. The prototype was designed to keep the space between motors, brackets, and structural elements optimized to avoid physical interference while maintaining a compact form.
+                        
+                        The main cylindrical section was intended for electronic modules, the lead screw assembly, wiring channels, and attachment slots for the leg mounting brackets and rails. Although only one leg was built and installed for this stage, all other mount points were designed, sized, and confirmed in CAD for replication and installation at a later time.
+                        </p>
+                </div>
+                <div class="image-container">
+                    <!-- Image -->
+                    <figure>
+                        <img src="assets/1.png" alt="Proposed design of the bot">
+                        <figcaption>Proposed design of the bot</figcaption>
+                    </figure>
+                </div>
+            </div>
+            
+            <div id="methodology-software" class="subsection">
+                <h3>4.3. Sensor Integration and Feedback control (Future works)</h3>
+                <div class="content-block">
+                    <p>
+                        The main actuation mechanism in <em>SmartCrawler</em> is the expansion and contraction of the legs to accommodate changing pipe diameters. This motion is driven by linear translation of a 3D-printed slider block attached to a stepper motor through a stiff shaft coupler. With the rotation of the lead screw, the slider translates along the axis of the main body, pushing the leg's pivot linkages to move outward or inward. The arms themselves ride on pivot holes with sufficient clearance to permit smooth angular motion upon actuation.
+                        </p>
+                        
+                        <p>
+                        To model varying pipeline diameters, the leg was tested within a piece of PVC pipe having known diameter measurements. The size and location of linkages and brackets were adjusted to provide maximum pressure on the pipe wall without jamming or unnecessary resistance.
+                        </p>
+                        
+                        <p>
+                        Through repetitive prototyping and refitting, design parameters like axle spacing, leg pivot angle, and wheel bracket offsets were refined.
+                        </p>
+                        
+                </div>
+            </div>
+            
+            <div id="methodology-calibration" class="subsection">
+                <h3>4.4. Wheel Drive</h3>
+                <div class="content-block">
+                    The locomotion system is founded on a straightforward dual-wheel drive per leg powered by BO motors mounted directly on the bracket sides of the wheel. The motor connects to the wheels through short axles supported by built-in holes in the bracket. Once stabilized in the pipe with pressure feedback, the wheels are activated to move the robot forward. In the prototype, this movement was experimented on level surfaces and in a controlled pipe system, where the movement stayed constant and exhibited encouraging traction.
+
+<br><br>The motors were driven in open-loop control through a simple H-bridge driver circuit (L293D), with direction control through digital input pins and speed control (if needed) through PWM. While just one leg was active during this phase, the wheel performance was tested under normal weight and resistance conditions to validate its usability in a complete three-legged setup.
+
+                </div>
+
+            </div>
+            
+            <div id="methodology-marking" class="subsection">
+                <h3>4.5. Embedded Control and Firmware Architecture</h3>
+                <div class="content-block">
+                    <p>An Arduino Mega served as the master microcontroller to control both the stepper motor and the BO motors. The firmware was designed to follow a sequential execution model of three main phases: leg expansion, forward movement, and leg retraction. In the expansion phase, the Arduino provided timed step pulses for the A4988 driver to turn the stepper motor. In parallel, the analog input of the pressure sensor was checked. When wall contact was detected, the motor was stopped. The BO motors were then turned on for a predetermined time to facilitate forward movement. Lastly, the stepper motor reversed to pull the leg back to provide clearance for the next movement cycle.
+
+                       <br> <br> This state-based method was adequate for proving autonomy in the prototype. Debug logs were also created through serial communication to monitor system state changes in real time. All pin configurations, logic thresholds, and delays were made modular to enable easy scaling to more legs during complete robot assembly.
+                        </p>
+                    
+                </div>
+            </div>
+            
+            <div id="methodology-planning" class="subsection">
+                <h3>4.6. Testing and Scalability </h3>
+                <div class="content-block">
+                    <p>The single-leg prototype was subjected to several cycles of expansion and retraction, pressure sensing, and BO motor locomotion in both open-air and enclosed PVC pipes. Mechanical clearances were adjusted according to frictional resistance, motor load, and sensor responsiveness. These adjustments were mainly aimed at optimizing pivot joint movement, minimizing flex in 3D-printed brackets, and adjusting motor mounts and sensor alignment.
+
+                       <br><br> From a scalability perspective, the other two leg mechanisms were completely modeled and sized so they can be mounted symmetrically about the central cylinder. Since every leg is independent in terms of mechanical motion and sensor input, the addition of extra legs requires very little architectural change. All the mounting slots, slider tracks, and bracket guides have already been defined in the master CAD model, so replication is an easy task.
+                        </p>
+                </div>
+            </div>
+                
+            </div>
+            
+            <div id="methodology-execution" class="subsection">
+                <h3>4.7. Future integration and Current Implementation</h3>
+                <div class="content-block">
+                    <p>By this point, SmartCrawler is a proven prototype of one working leg module and a finished 3D-modeled representation of the entire robot. The ability to run the leg module proves the mechanical feasibility of the design and presents a solid benchmark from which to proceed to increase the system into its target three-legged configuration. Because the control logic is already abstracted out, scaling up the leg module and distributing respective motor and sensor inputs is just a matter of duplication and interconnection.
+
+                       <br><br> After setting up all three leg mechanisms, the robot can be tested in actual pipeline situations to adjust sensor thresholds within different material surfaces and curvature profiles. Integration in the future will emphasize setting up the system for responsive turning within pipeline bends, setting up optimal load distribution between legs, and implementing energy-aware behavior during crossing. Through its modularity and adaptability, SmartCrawler illustrates a clear path toward complete deployment as a standalone pipeline inspection robot.
+                        </p>
+                </div>
+   
+        </section>
+        
+        <!-- Results and Discussion -->
+        <section id="results" class="section">
+            <h2>5. Results and Discussion</h2>
+            <div class="content-block">
+                <p>
+                    The outcomes of the present development phase are a strong confirmation of both the conceptual design and practical viability of the <em>SmartCrawler</em> robotic system. While the entire robot—three coordinated leg modules—has been designed and completed in CAD with all parts dimensioned, only one leg mechanism was built and tested physically within the project time frame provided. The artificial parts, sensor integration, and actuation system were integrated and tested to ensure structural integrity, functional flexibility, and general locomotion behavior under limited conditions.
+                </p>
+                <div class="image-container">
+                    <!-- Results -->
+                    <figure>
+                        <img src="assets/2.png" alt="Resultt">
+                        <figcaption>Design of the bot</figcaption>
+                    </figure>
+                </div>
+
+                <p>
+                    The single-leg assembly printed in 3D was installed on the central body frame according to the final design specifications. The leg was tested within a controlled test rig using PVC pipes with specified internal diameters to mimic actual pipeline conditions. The expansion-contraction mechanism was driven using the NEMA 17 stepper motor and lead screw arrangement, with mechanical motion being accurately transmitted to the leg through the sliding connector and pivoting linkages. The system was able to successfully exhibit adaptive movement—expanding up to the pressure threshold and stopping automatically, as governed by real-time feedback from the force-sensitive resistor. This confirmed the autonomous adaptation logic and mechanical compliance of the linkage system.
+                    </p>
+                    
+                    <p>
+                    In addition, the two-wheel drive incorporated into the leg bracket showed consistent forward motion when driven under open-loop motor control. The BO motors, once switched on after stabilization, transported the structure efficiently through both straight runs and moderate pipe curvature. The motors responded well to directional changes and provided consistent traction, validating their viability for future multi-leg systems. Motor torque and friction losses were noted and maximized during testing through minor design tweaks to axle clearances and bracket tolerances.
+                    </p>
+                    
+                    <p>
+                    The entire robot design was checked using CAD simulation to confirm component alignment, fit, and spacing between all mechanical and electronic components. The design provided adequate clearance between stepper motors, lead screw supports, sensor mounts, and wheel modules—a necessary requirement for preventing collision and facilitating functional integration. The modularity of the leg design was especially advantageous in this respect, as it allows for accurate duplication and parallel assembly of extra legs without structural rework.
+                    </p>
+                    <div class="image-container">
+                        <!-- Results -->
+                        <figure>
+                            <img src="assets/3.png" alt="Results">
+                            <figcaption>Design of the bot</figcaption>
+                        </figure>
+                    </div>
+                    
+                    <p>
+                    A photo of the entire <em>SmartCrawler</em> design in CAD is presented in this section to demonstrate the final assembly. In addition, a picture of the physically built leg mechanism has also been included, visually proving the functional ability of the tested module. These findings confirm the readiness of the design for scaling and deployment in real-world applications.
+                    </p>
+                    
+                    <p>
+                    Though the final robot with three functional leg modules is still to be built, the findings of the present phase unambiguously confirm that the structure is robust, the control method is sound, and the mechanical systems perform as expected. Subsequent testing on the complete system will enable real-time adjustment of the pressure sensing thresholds on all legs and confirmation of sophisticated maneuvers like turning and variable-speed navigation through differently contoured pipeline sections.
+                    </p>                            
+            </div>
+          
+            
+            
+           
+           
+        <!-- Demo -->
+        <section id="demo" class="section">
+            <h2>6. Demo of Simulation and Hardware</h2>
+            <div class="content-block">
+                <div class="video-container">
+                    <!-- Video - hardware -->
+                    <figure>
+                        <video controls>
+                            <source src="assets/result.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>                        <figcaption>Hardware Setup</figcaption>
+                    </figure>
+                </div>            </div>
+            
+        </section>
+        
+        <!-- Conclusion -->
+        <section id="conclusion" class="section">
+            <h2>7. Conclusion and Future Work</h2>
+            <div class="content-block">
+                <p>
+                    The <em>SmartCrawler</em> project successfully demonstrates the feasibility and promise of a cost-effective, adaptable robotic solution for autonomous pipeline inspection. Through a combination of innovative mechanical design, lightweight 3D-printed components, and real-time feedback control, the system addresses key limitations found in existing pipeline inspection technologies—particularly those related to cost, mechanical complexity, and adaptability in variable environments.
+                    </p>
+                    
+                    <p>
+                    A single-leg prototype was developed and rigorously tested, validating the robot’s core principles of adaptive locomotion, structural integrity, and functional autonomy. The pressure-based expansion mechanism and lead screw-driven actuation proved effective in simulating real-world pipeline conditions. Moreover, CAD simulations and physical trials confirmed the system's mechanical compliance, modularity, and the potential for scalable replication.
+                    </p>
+                    
+                    <p>
+                    Compared to existing robotic platforms, <em>SmartCrawler</em> distinguishes itself by reducing sensor dependencies while maintaining robust functionality. The design achieves a fine balance between simplicity and intelligence, making it suitable for challenging inspection tasks where access is limited and flexibility is critical.
+                    </p>
+                    
+                    <p>
+                    Although a full three-leg prototype remains to be constructed, the groundwork laid in this development phase provides a strong foundation for future enhancements. This includes integrating full-body locomotion, real-time multi-leg coordination, and autonomous decision-making in complex pipeline networks. With continued iteration and testing, <em>SmartCrawler</em> stands ready for real-world deployment in industrial, infrastructural, and rescue missions where safety, efficiency, and autonomy are paramount.
+                    </p>
+                
+            </div>
+            
+           
+            
+            
+        </section>
+        
+        <!-- References -->
+        <section id="references" class="section">
+            <h2>8. References</h2>
+            <div class="content-block references-list">
+                <ul>
+                    <li>
+                        Roh, S.-G., Kim, D. W., Lee, J.-S., Moon, H., & Choi, H. (2008). Modularized in-pipe robot capable of selective navigation inside of pipelines. 
+                        <em>2008 IEEE/RSJ International Conference on Intelligent Robots and Systems</em>, Nice, France, 2008, pp. 1724–1729, doi: 10.1109/IROS.2008.4650968.
+                    </li>
+                    <li>
+                        Lee, D.-H., Moon, H., & Choi, H. (2011). Autonomous navigation of in-pipe working robot in unknown pipeline environment. 
+                        <em>Proceedings of IEEE International Conference on Robotics and Automation</em>, 2011, pp. 1559–1564, doi: 10.1109/ICRA.2011.5980503.
+                    </li>
+                    <li>
+                        Jang, H., Kim, H., Lee, M., Song, Y., Lee, Y., Ryew, W., & Choi, H. (2021). Development of modularized in-pipe inspection robotic system: MRINSPECT VII+. 
+                        <em>Robotica</em>, vol. 40, pp. 1–24, 2021, doi: 10.1017/S0263574721001156.
+                    </li>
+                </ul>
+                
+            </div>
+        </section>
+    </main>
+    
+    <!-- Dark Mode Toggle Button -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize ScrollReveal
+            const sr = ScrollReveal({
+                origin: 'bottom',
+                distance: '50px',
+                duration: 1000,
+                delay: 200,
+                easing: 'ease-in-out',
+                reset: false
+            });
+    
+            // Apply animations to elements
+            sr.reveal('.section', { interval: 200 });
+            sr.reveal('.hero-content', { distance: '100px', delay: 300 });
+            sr.reveal('.image-container', { interval: 300 });
+            sr.reveal('.code-block', { delay: 400 });
+            sr.reveal('.equation-container', { delay: 200 });
+            sr.reveal('.video-container', { delay: 400 });
+
+            // Dark mode functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            const icon = darkModeToggle.querySelector('i');
+            
+            // Check for saved dark mode preference
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode === 'enabled') {
+                enableDarkMode();
+            }
+            
+            // Dark mode toggle click event
+            darkModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark-mode')) {
+                    disableDarkMode();
+                } else {
+                    enableDarkMode();
+                }
+            });
+            
+            function enableDarkMode() {
+                body.classList.add('dark-mode');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('darkMode', 'enabled');
+                // Force MathJax to rerender with new theme
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise();
+                }
+            }
+            
+            function disableDarkMode() {
+                body.classList.remove('dark-mode');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('darkMode', null);
+                // Force MathJax to rerender with new theme
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise();
+                }
+            }
+            
+            // MathJax config for dark mode support
+            if (typeof MathJax !== 'undefined') {
+                MathJax.config = MathJax.config || {};
+                MathJax.config.options = MathJax.config.options || {};
+                MathJax.config.options.renderActions = MathJax.config.options.renderActions || {};
+                MathJax.config.options.renderActions.addStyles = [MathJax.STATE.STYLES, '', '', function(state) {
+                    // Apply dark mode styles to MathJax if needed
+                    if (document.body.classList.contains('dark-mode')) {
+                        state.data.root.styles.color = 'var(--dark-text-color)';
+                    }
+                }];
+            }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a, .toc-list + a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const navbarHeight = 70; // Match with --navbar-height in CSS
+                        window.scrollTo({
+                            top: targetElement.offsetTop - navbarHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+    
+            // Initialize MathJax for dynamic content
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise && MathJax.typesetPromise();
+            }
+        });
+    </script>
+</body>
+</html>
